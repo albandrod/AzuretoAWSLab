@@ -104,6 +104,16 @@ resource "azurerm_local_network_gateway" "awsvpc" {
   depends_on = ["aws_vpn_connection.main"]
 }
 
+resource "azurerm_local_network_gateway" "awsvpc2" {
+  name                = "AWS-VPC-VGW"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  location            = "${azurerm_resource_group.rg.location}"
+  gateway_address     = "${aws_vpn_connection.main.tunnel2_address}"
+  address_space       = ["192.168.0.0/16"]
+
+  depends_on = ["aws_vpn_connection.main"]
+}
+
 # Azure to AWS S2S VPN Connection
 resource "azurerm_virtual_network_gateway_connection" "azure2aws" {
   name                = "Azure2AWS"
